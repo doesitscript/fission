@@ -237,10 +237,10 @@ build_yamls() {
 
     for c in fission-all fission-core
     do
-        # for minikube and other environment not support ELB
-        helm template ${c} -n ${c}-${version} --set serviceType=NodePort,routerServiceType=NodePort > ${c}-${version}-minikube.yaml
-        # for environments support ELB
-        helm template ${c} -n ${c}-${version} > ${c}-${version}.yaml
+        # for minikube and other environment that don't support LoadBalancer
+        helm template ${c} -n ${c}-release --set serviceType=NodePort,routerServiceType=NodePort > ${c}-${version}-minikube.yaml
+        # for environments that support LoadBalancer
+        helm template ${c} -n ${c}-release > ${c}-${version}.yaml
         mv *.yaml ${BUILDDIR}/yamls/
     done
 
